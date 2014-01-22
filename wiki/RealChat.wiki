@@ -1,13 +1,88 @@
 #summary RealChat - handy IRC client
 
-= Introduction =
-
-RealChat - handy IRC client
+RealChat
 
 
-= Details =
+= Description =
 
 RealChat was written as alternative to popular "Intranet Chat" (author 
-Alexander Vorozhun) for local networks. With all iChat's advantages, there was some serious disadvantages: weak server side, unstability with big numbers of users, message transfer protocol vulnerabilities.. Author sometime stopped his work on chat and not publish sources for further project development.
+Alexander Vorozhun) for local networks. With all iChat's advantages, there was 
+some serious disadvantages: weak server side, unstability with big numbers of 
+users, message transfer protocol vulnerabilities.. Author sometime stopped his 
+work on chat and not publish sources for further project development.
 
-RealChat use wide-famous message transfer protocol IRC, have look and functionality similar to iChat, and have some rare features.
+RealChat use wide-famous message transfer protocol IRC, have look and 
+functionality similar to iChat, and have some rare features.
+
+
+= Features =
+
+Common features:
+  * IRC protocol support - channels, privates, notices, actions, DCC CHAT, DCC SEND, DCC RESTORE
+  * Channel list with filtering, search and sorting
+  * List of fast messages
+  * Notes collector by keywords
+  * Changeable fonts
+  * Sound events
+  * Alterable messages templates
+  * Received and sent files list
+  * Colored, italic, underlined, bold text
+  * Popup private messages
+  * Tray icon and notes
+  * Ignored users list
+  * Highlight hyperlinks http://
+  * Grouping users in userlist
+  * Connection over HTTP/SOCKS proxy
+
+Rare features:
+  * iChat protocol support
+  * Animated smileys
+  * Notes board
+  * Encription on channels and private messages (RC4 + BASE64 for elimination of non-character symbols)
+  * Users avatar displayed
+  * Command-line style plugins API
+  * Chat pages detachable from main window
+
+
+= How to use =
+
+For beginning, press "Options" button and on "Connection" page set your 
+nickname, server address and port. For connect/disconnect from server, use button "Connect".
+
+Press "Channel list" button to get channels list.
+
+Right mouse click on chat elements bring up context menu.
+
+You can set up list of commnands, executed after connection to server. It may be nick change, channels join, nick identification, greetings, etc..
+
+Messages encription enabled by command /PASS [password]
+Encription disabled, if password empty.
+
+You can create nicks groups. Drag nick to group by mouse, when SHIFT pressed.
+
+
+= Hotkeys =
+
+{{{
+F1          - information page
+F2          - status page
+F3          - notes page
+F4          - files page
+Ctrl-UP     - previous typed message
+Ctrl-DOWN   - next typed message
+Ctrl-K      - color selection
+Ctrl-B      - bold font
+Ctrl-I      - italic font
+Ctrl-U      - underlined font
+F11         - translit encoding
+Esc         - minimize chat window
+Ctrl-Alt-C  - toggle chat window anytime
+Alt-Right   - next page
+Alt-Left    - previous page
+}}}
+
+= Authors =
+
+  * Sergey (Hunter) Bodrov
+
+  * xaOc
