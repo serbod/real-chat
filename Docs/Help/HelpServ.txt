@@ -1,0 +1,16 @@
+----------
+/HELP
+
+HelpServ is a service designed to give out information on
+IRC and Services.  Detailed help for Services can be accessed
+via the HELP commands of the other Services clients:
+ 
+   /msg NickServ HELP
+        for information on registering nicknames
+ 
+   /msg ChanServ HELP
+        for information on registering and controlling
+        channels
+ 
+   /msg MemoServ HELP
+        for information on sending messages to off-line users

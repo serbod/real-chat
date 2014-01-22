@@ -1,0 +1,165 @@
+SOCKS 4 protocol
+
+A typical SOCKS 4 connection request looks like this (each number is one byte):
+
+Client to SOCKS Server:
+field 1: SOCKS version number, 1 byte, must be 0x04 for this version
+field 2: command code, 1 byte: 
+0x01 = establish a TCP/IP stream connection
+0x02 = establish a TCP/IP port binding
+field 3: network byte order port number, 2 bytes
+field 4: network byte order IP address, 4 bytes
+field 5: the user ID string, variable length, terminated with a null (0x00)
+
+Server to SOCKS client:
+field 1: null byte
+field 2: status, 1 byte: 
+0x5a = request granted
+0x5b = request rejected or failed
+0x5c = request failed because client is not running identd (or not reachable from the server)
+0x5d = request failed because client's identd could not confirm the user ID string in the request
+field 3: 2 arbitrary bytes, that should be ignored
+field 4: 4 arbitrary bytes, that should be ignored
+
+Example:
+
+This is a SOCKS 4 request to connect Fred to 66.102.7.99:80, the server replies with an "OK".
+Client: 0x04 | 0x01 | 0x00 0x50 | 0x42 0x66 0x07 0x63 | 0x46 0x72 0x65 0x64 0x00 
+The last field is 'Fred' in ASCII, followed by a null byte.
+Server: 0x00 | 0x5a | 0xXX 0xXX | 0xXX 0xXX 0xXX 0xXX 
+0xXX can be any byte value. The Socks 4 protocol specifies the values of these bytes should be ignored.
+
+From this point on any data sent from the SOCKS client to the SOCKS server will be relayed to 66.102.7.99 and vice versa.
+
+The command field can be 0x01 for "connect" or 0x02 for "bind". "bind" allows incoming connections for protocols like active FTP.
+
+[edit]
+SOCKS 4a protocol
+
+SOCKS 4a is a simple extension to SOCKS 4 protocol that allows a client that cannot resolve the destination host's domain name to specify it.
+
+The client should set the first three bytes of DSTIP to NULL and the last byte to a non-zero value (This corresponds to IP address 0.0.0.x, with x nonzero, an inadmissible destination address and thus should never occur if the client can resolve the domain name). Following the NULL byte terminating USERID, the client must send the destination domain name and terminate it with another NULL byte. This is used for both "connect" and "bind" requests.
+
+Client to Socks Server:
+field 1: SOCKS version number, 1 byte, must be 0x04 for this version
+field 2: command code, 1 byte: 
+0x01 = establish a TCP/IP stream connection
+0x02 = establish a TCP/IP port binding
+field 3: network byte order port number, 2 bytes
+field 4: deliberate invalid IP address, 4 bytes, first three must be 0x00 and the last one must not be 0x00
+field 5: the user ID string, variable length, terminated with a null (0x00)
+field 6: the domain name of the host we want to contact, variable length, terminated with a null (0x00)
+
+Server to SOCKS client:
+field 1: null byte
+field 2: status, 1 byte: 
+0x5a = request granted
+0x5b = request rejected or failed
+0x5c = request failed because client is not running identd (or not reachable from the server)
+0x5d = request failed because client's identd could not confirm the user ID string in the request
+field 3: network byte order port number, 2 bytes
+field 4: network byte order IP address, 4 bytes
+
+A server using protocol 4A must check the DSTIP in the request packet. If it represents address 0.0.0.x with nonzero x, the server must read in the domain name that the client sends in the packet. The server should resolve the domain name and make connection to the destination host if it can.
+
+[edit]
+SOCKS 5 protocol
+
+The SOCKS 5 protocol, an extension of the SOCKS 4 protocol that offers more choices of authentication, is defined in RFC 1928. The initial handshake now consists of the following:
+Client connects and sends a greeting which includes a list of authentication methods supported.
+Server chooses one (or sends a failure response if none of the offered methods are acceptable).
+Several messages may now pass between the client and the server depending on the authentication method chosen.
+Client sends a connection request similar to SOCKS 4.
+Server responds similar to SOCKS 4.
+
+The authentication methods supported are numbered as follows:
+0x00 - No authentication
+0x01 - GSSAPI
+0x02 - Username/Password
+0x03-0x7F - methods assigned by IANA
+0x80-0xFE - methods reserved for private use
+
+The initial greeting from the client is:
+field 1: SOCKS version number (must be 0x05 for this version)
+field 2: number of authentication methods supported, 1 byte
+field 3: authentication methods, variable length, 1 byte per method supported
+
+The server's choice is communicated:
+field 1: SOCKS version, 1 byte (0x05 for this version)
+field 2: chosen authentication method, 1 byte, or 0xFF if no acceptable methods were offered
+
+The subsequent authentication is method-dependent.
+
+The client's connection request is:
+field 1: SOCKS version number, 1 byte (must be 0x05 for this version)
+field 2: command code, 1 byte: 
+0x01 = establish a TCP/IP stream connection
+0x02 = establish a TCP/IP port binding
+0x03 = associate a UDP port
+field 3: reserved, must be 0x00
+field 4: address type, 1 byte: 
+0x01 = IPv4 address
+0x03 = Domain name
+0x04 = IPv6 address
+field 5: destination address of 
+4 bytes for IPv4 address
+1 byte of name length followed by the name for Domain name
+16 bytes for IPv6 address
+field 6: port number in a network byte order, 2 bytes
+
+Server response:
+field 1: SOCKS protocol version, 1 byte (0x05 for this version)
+field 2: status, 1 byte: 
+0x00 = request granted
+0x01 = general failure
+0x02 = connection not allowed by ruleset
+0x03 = network unreachable
+0x04 = host unreachable
+0x05 = connection refused by destination host
+0x06 = TTL expired
+0x07 = command not supported / protocol error
+0x08 = address type not supported
+field 3: reserved, must be 0x00
+field 4: address type, 1 byte: 
+0x01 = IPv4 address
+0x03 = Domain name
+0x04 = IPv6 address
+field 5: destination address of 
+4 bytes for IPv4 address
+1 byte of name length followed by the name for Domain name
+16 bytes for IPv6 address
+field 6: network byte order port number, 2 bytes
+
+
+Username/Password Authentication for SOCKS V5
+
+   Once the SOCKS V5 server has started, and the client has selected the
+   Username/Password Authentication protocol, the Username/Password
+   subnegotiation begins.  This begins with the client producing a
+   Username/Password request:
+
+           +----+------+----------+------+----------+
+           |VER | ULEN |  UNAME   | PLEN |  PASSWD  |
+           +----+------+----------+------+----------+
+           | 1  |  1   | 1 to 255 |  1   | 1 to 255 |
+           +----+------+----------+------+----------+
+
+   The VER field contains the current version of the subnegotiation,
+   which is X'01'. The ULEN field contains the length of the UNAME field
+   that follows. The UNAME field contains the username as known to the
+   source operating system. The PLEN field contains the length of the
+   PASSWD field that follows. The PASSWD field contains the password
+   association with the given UNAME.
+
+   The server verifies the supplied UNAME and PASSWD, and sends the
+   following response:
+
+                        +----+--------+
+                        |VER | STATUS |
+                        +----+--------+
+                        | 1  |   1    |
+                        +----+--------+
+
+   A STATUS field of X'00' indicates success. If the server returns a
+   `failure' (STATUS value other than X'00') status, it MUST close the
+   connection.

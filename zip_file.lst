@@ -1,0 +1,15 @@
+RealChat.exe
+language_en.ini
+language_ru.ini
+smiles.ini
+IRC_templates.txt
+Docs\changes.txt
+Docs\commands.txt
+Docs\license.txt
+Docs\RealChat_en.txt
+Docs\RealChat_ru.txt
+Avatars\hidden.bmp
+Avatars\normal.bmp
+Avatars\op.bmp
+Avatars\voiced.bmp
+Smiles\*.*
