@@ -1,0 +1,46 @@
+AZaz
+[Form]
+Left=190
+Top=118
+Width=767
+Height=515
+[Main]
+Nick=Hunter-test2
+Server=192.168.0.240
+Port=6667
+[Nicks]
+Nick0=Hunter-test
+Nick1=Hunter-test2
+Nick2=LaMoSer
+Nick3=xa0c
+Nick4=xa0c
+[Servers]
+Server0=172.16.0.192:6667
+Server1=172.16.0.3:6667
+Server2=192.168.0.240:6667
+Server3=irc.dal.net:6667
+Server4=irc.freenode.net:6667
+Server5=irc.heavy-online.ru:6667
+Server6=irc.icqinfo.ru:6667
+Server7=irc.irchighway.net:6667
+Server8=irc.lan:6667
+Server9=irc.rus.net:6669
+[CTCP]
+Ping=В себя потыкай :)
+Version=RealChat v0.0.3 alpha
+[IRC]
+OtherNick=LaMoS
+FullName=RealChat Developer >:)
+QuitMessage=Куда это вы меня ведёте?
+[Smiles]
+SmilesCount=100
+[misc]
+CopySelected=1
+[Fast Messages]
+FMsg0=/JOIN #local
+FMsg1=/JOIN #Amnet
+FMsg2=/JOIN #курилка
+FMsg3=/me тестирует новый чат...
+[Auto Commands]
+ACmd0=/JOIN #local
+ACmd1=/JOIN #amnet

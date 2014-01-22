@@ -1,0 +1,161 @@
+/CTCP Hunter DCC RESUME gothicart_2.jpg 1115 10000
+
+
+
+:HUNTER2!~RealChat@82.211.176.11 JOIN :#local
+
+:irc.heavy-online.ru 332 HUNTER2 #local :НовыйTinyBook:http://heavy-online.ru/TinyBook/,http://lib.rus.ec/| ViSP продаст КПК Acer n311 |  новые маршруты http://www.orel-adm.ru/index.php?id=4-20 | mad_fish - не связывайтесь с китфинансом, если вам дорого ваше время | duh купит корпус bigtower duh_s@mail.ru
+
+:irc.heavy-online.ru 333 HUNTER2 #local Duh 1195259435
+
+[01:26:47] *** 333 HUNTER2 #local Duh 1195259435
+:irc.heavy-online.ru 353 HUNTER2 = #local :HUNTER2 +utkin68 +Duh +Eeyore +[aen] +ili4 +[x] @kerhS 
+
+:irc.heavy-online.ru 366 HUNTER2 #local :End of /NAMES list.
+
+:ChanServ!services@heavy-online.ru NOTICE HUNTER2 :(#local) Новичкам в чате: качайте чат-клиента http://irc.heavy-online.ru/TinyIRC_Install.exe (всего 200кб). Получите удобный и быстрый интерфейс к чату !
+
+[01:26:47] NOTiCE: ChanServ (#local) Новичкам в чате: качайте чат-клиента http://irc.heavy-online.ru/TinyIRC_Install.exe (всего 200кб). Получите удобный и быстрый интерфейс к чату !
+:ChanServ!services@heavy-online.ru MODE #local +v HUNTER2
+
+:irc.heavy-online.ru 324 HUNTER2 #local +nrh 
+
+[01:26:48] *** Channel #local modes: +nrh 
+:irc.heavy-online.ru 329 HUNTER2 #local 1093802664
+
+[01:26:48] *** 329 HUNTER2 #local 1093802664
+PING :irc.heavy-online.ru
+
+
+:irc.heavy-online.ru NOTICE AUTH :*** Found your hostname
+
+[19:36:09] AUTH *** Found your hostname
+:irc.heavy-online.ru 001 HUNTER2 :Welcome to the Heavy-Net IRC Network HUNTER2!~RealChat@82.211.176.11
+
+[19:36:11] * HUNTER2 Welcome to the Heavy-Net IRC Network HUNTER2!~RealChat@82.211.176.11
+:irc.heavy-online.ru 002 HUNTER2 :Your host is irc.heavy-online.ru, running version ircd-RU!(Bahamut-1.4.35)-1.0(07)-01
+
+[19:36:11] * HUNTER2 Your host is irc.heavy-online.ru, running version ircd-RU!(Bahamut-1.4.35)-1.0(07)-01
+:irc.heavy-online.ru 003 HUNTER2 :This server was created Mon Aug 18 2003 at 09:26:21 MSD
+
+[19:36:11] * HUNTER2 This server was created Mon Aug 18 2003 at 09:26:21 MSD
+:irc.heavy-online.ru 004 HUNTER2 irc.heavy-online.ru ircd-RU!(Bahamut-1.4.35)-1.0(07)-01 oOiwscrRkKnfydaAbgheFxXj biklLmMnoprRstvc7BeEwxXP
+
+[19:36:11] * HUNTER2 irc.heavy-online.ru ircd-RU!(Bahamut-1.4.35)-1.0(07)-01 oOiwscrRkKnfydaAbgheFxXj biklLmMnoprRstvc7BeEwxXP
+:irc.heavy-online.ru 005 HUNTER2 NOQUIT WATCH=128 SAFELIST MODES=6 MAXCHANNELS=20 MAXBANS=100 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 CHANTYPES=# PREFIX=(ov)@+ STATUSMSG=@+ NETWORK=Heavy-Net SILENCE=10 EXCEPTS CHARSET=ascii CHANMODES=bBeEX,k,l,7chiLmMnOprRstwx CODEPAGES 8BNICKS=YES MANICKS=YES MAWNICKS=YES 8BNCI=YES 8BCNCI=YES NICKIDEN :are available on this server
+
+[19:36:11] * HUNTER2 NOQUIT WATCH=128 SAFELIST MODES=6 MAXCHANNELS=20 MAXBANS=100 NICKLEN=30 CHANNELLEN=32 TOPICLEN=307 KICKLEN=307 CHANTYPES=# PREFIX=(ov)@+ STATUSMSG=@+ NETWORK=Heavy-Net SILENCE=10 EXCEPTS CHARSET=ascii CHANMODES=bBeEX,k,l,7chiLmMnOprRstwx CODEPAGES 8BNICKS=YES MANICKS=YES MAWNICKS=YES 8BNCI=YES 8BCNCI=YES NICKIDEN are available on this server
+:irc.heavy-online.ru 251 HUNTER2 :There are 4 users and 14 invisible on 4 servers
+
+[19:36:11]  HUNTER2 There are 4 users and 14 invisible on 4 servers
+:irc.heavy-online.ru 252 HUNTER2 6 :IRC Operators online
+
+[19:36:11]  HUNTER2 6 IRC Operators online
+:irc.heavy-online.ru 254 HUNTER2 5 :channels formed
+
+[19:36:11]  HUNTER2 5 channels formed
+:irc.heavy-online.ru 255 HUNTER2 :I have 10 clients and 1 servers
+
+[19:36:11]  HUNTER2 I have 10 clients and 1 servers
+:irc.heavy-online.ru 265 HUNTER2 :Current local users: 10 Max: 42
+
+[19:36:11]  HUNTER2 Current local users: 10 Max: 42
+:irc.heavy-online.ru 266 HUNTER2 :Current global users: 18 Max: 73
+
+[19:36:11]  HUNTER2 Current global users: 18 Max: 73
+:irc.heavy-online.ru NOTICE HUNTER2 :*** Notice -- motd was last changed at 20/9/2005 13:29
+
+[19:36:11] HUNTER2 *** Notice -- motd was last changed at 20/9/2005 13:29
+:irc.heavy-online.ru 375 HUNTER2 :- irc.heavy-online.ru Message of the Day - 
+
+[19:36:13] *MOTD HUNTER2 - irc.heavy-online.ru Message of the Day - 
+:irc.heavy-online.ru 372 HUNTER2 :- 19/11/2007 19:39
+
+[19:36:13] MOTD HUNTER2 - 19/11/2007 19:39
+:irc.heavy-online.ru 372 HUNTER2 :- =============================================================================
+
+[19:36:13] MOTD HUNTER2 - =============================================================================
+:irc.heavy-online.ru 372 HUNTER2 :-                                Welcome to Orel
+
+[19:36:13] MOTD HUNTER2 -                                Welcome to Orel
+:irc.heavy-online.ru 372 HUNTER2 :-                        Добро пожаловать в орловский чат
+
+[19:36:13] MOTD HUNTER2 -                        Добро пожаловать в орловский чат
+:irc.heavy-online.ru 372 HUNTER2 :- =============================================================================
+
+[19:36:13] MOTD HUNTER2 - =============================================================================
+:irc.heavy-online.ru 372 HUNTER2 :- - Веб-интерфейс чата CGI-IRC: http://irc.heavy-online.ru/cgi-bin/irc.cgi
+
+[19:36:13] MOTD HUNTER2 - - Веб-интерфейс чата CGI-IRC: http://irc.heavy-online.ru/cgi-bin/irc.cgi
+:irc.heavy-online.ru 372 HUNTER2 :- - Страничка Heavy: http://www.heavy-online.ru
+
+[19:36:13] MOTD HUNTER2 - - Страничка Heavy: http://www.heavy-online.ru
+:irc.heavy-online.ru 372 HUNTER2 :- =============================================================================
+
+[19:36:13] MOTD HUNTER2 - =============================================================================
+:irc.heavy-online.ru 372 HUNTER2 :- По всем вопросам, связанным с работой чата, пишите:
+
+[19:36:13] MOTD HUNTER2 - По всем вопросам, связанным с работой чата, пишите:
+:irc.heavy-online.ru 372 HUNTER2 :- - Heavy <heavy@heavy-online.ru> - администратор irc-сервера
+
+[19:36:13] MOTD HUNTER2 - - Heavy <heavy@heavy-online.ru> - администратор irc-сервера
+:irc.heavy-online.ru 372 HUNTER2 :- =============================================================================
+
+[19:36:13] MOTD HUNTER2 - =============================================================================
+:irc.heavy-online.ru 372 HUNTER2 :- В нашей irc-сети найдете канал #local, где люди общаются на самые разные темы
+
+[19:36:13] MOTD HUNTER2 - В нашей irc-сети найдете канал #local, где люди общаются на самые разные темы
+:irc.heavy-online.ru 372 HUNTER2 :- Адреса наших irc-серверов:
+
+[19:36:13] MOTD HUNTER2 - Адреса наших irc-серверов:
+:irc.heavy-online.ru 372 HUNTER2 :-         irc://irc.heavy-online.ru
+
+[19:36:13] MOTD HUNTER2 -         irc://irc.heavy-online.ru
+:irc.heavy-online.ru 372 HUNTER2 :-         irc://80.76.177.139
+
+[19:36:15] MOTD HUNTER2 -         irc://80.76.177.139
+:irc.heavy-online.ru 372 HUNTER2 :- =============================================================================
+
+[19:36:15] MOTD HUNTER2 - =============================================================================
+:irc.heavy-online.ru 376 HUNTER2 :End of /MOTD command.
+
+:HUNTER2 MODE HUNTER2 :+i
+
+[19:36:15]  MODE set mode: HUNTER2 :+i
+:irc.heavy-online.ru 700 HUNTER2 CP1251 :is now your translation scheme
+
+[19:36:15] *** 700 700 HUNTER2 CP1251 is now your translation scheme
+
+
+
+Received:
+
+/MSG #channel
+:Hunter!~Miranda@82.211.176.11 PRIVMSG #local :test
+
+/MSG Nick
+:Hunter!~Miranda@82.211.176.11 PRIVMSG HUNTER2 :test 123
+
+/CTCP #channel
+:Hunter!~Miranda@82.211.176.11 PRIVMSG #local :test 123
+
+/CTCP Nick
+:Hunter!~Miranda@82.211.176.11 PRIVMSG HUNTER2 :test 123
+
+/ME
+:Hunter!~Miranda@82.211.176.11 PRIVMSG #local :ACTION test 123
+
+/PING
+PING :irc.heavy-online.ru
+
+/JOIN
+:Hunter!~Miranda@82.211.176.11 JOIN :#local
+
+/QUIT
+:nord!~Miranda@89.113.48.230 QUIT :Quit: Miranda IM
+
+/DCC SEND <file_name> <ip_number> <port> <file_size>
+:Hunter!~Miranda@82.211.176.11 PRIVMSG HUNTER2 :DCC SEND prev.jpg 1389604875 3849 10351
+
+/DCC RESUME <file_name> <port> <position>
+:Hunter!~Miranda@82.211.176.11 PRIVMSG HUNTER2 :DCC RESUME 1152334990_13.jpg 2200 28663

@@ -1,0 +1,71 @@
+[RealChat]
+MyNick=Hunter
+ClientVersion=IRC client for iRC ver. 0.1
+AvatarURL=
+AwayMessage=Меня здесь нет!
+Version=RealChat
+SmilesCount=10
+SmilesCloseAfterSelect=1
+AutoReconnect=1
+UseAvatars=1
+CopySelected=1
+PopupPrivates=1
+PopupAllMsg=0
+UserlistCheckboxes=1
+IgnorePrivates=0
+NewTabOnPrivate=0
+ServerPageVisible=0
+NotesPageVisible=0
+FilesPageVisible=0
+PlaySounds=0
+SendMsgOnCtrlEnter=0
+FastMsgList0=/join #local
+FastMsgList1=/part
+FastMsgList2=/me test test2
+FastMsgList3=/nick SomeNewNick
+AutoConnect=0
+ShowNotesOnJoin=0
+LogMessages=0
+ShowStatusMessages=0
+CloseAfterSelect=0
+NotesGrabberList=
+IgnoreList=
+AutojoinList=
+QuitMessage=RealChat - http://irchat.ru
+MainForm_Top=373
+MainForm_Left=267
+MainForm_Height=450
+MainForm_Width=774
+NotifyPrivates=1
+NotifyAllMsg=0
+PopupPrivate=0
+DisableTextColors=0
+DisableSmiles=0
+fntChatText_Name=MS Sans Serif
+fntChatText_Size=8
+fntUserList_Name=MS Sans Serif
+fntUserList_Size=8
+fntTxtToSend_Name=MS Sans Serif
+fntTxtToSend_Size=8
+TemplatesList=
+NotesList=
+AvatarQueryDelay=10
+ChatClientsList0=IRC=IRC.ini
+ChatClientsList1=iChat=iChat1.ini
+ChatClientsList2=IRC=IRC2.ini
+ChatClientsList3=IRC=IRC3.ini
+SettingsFile=Settings.ini
+SaveFilesDir=Incoming
+AvatarsPath=Avatars
+LogsPath=Logs
+PluginsPath=Plugins
+LanguageFile=language_en.ini
+MyFullName=
+MySecondNick=HUNTER2
+
+[Plugin_Options]
+LogsPath=D:\work\RealChat-2\Plugins\\Logs\
+LogLevel=5
+AddTimestamp=0
+Enabled=1
+

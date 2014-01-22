@@ -1,0 +1,221 @@
+<html>
+<head>
+<title>Intranet Chat (ichat)&nbsp;&mdash; Описание протокола&nbsp;&mdash; Проекты для домашней сети</title>
+<meta http-equiv=Content-Type content="text/html; charset=windows-1251">
+<META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
+<META HTTP-EQUIV="CACHE-CONTROL" CONTENT="NO-CACHE">
+<META NAME="COPYRIGHT" CONTENT="&copy; 2006 Kanstantsin Baturytski">
+</head>
+<body>
+<div style='margin:30px' ><a href='/'>На главную</a> : <a href='/articles/'>Статьи</a> : <a href='http://forum.web-visage.com/homenets/'>Форум</a> : <a href='http://homenets.blogspot.com/'>Блог</a> : <a href='http://sourceforge.net/sendmessage.php?touser=1356847'>Связаться с&nbsp;автором</a></div>
+<table border='0' cellspacing='30'>
+<tr><td align='justify' valign='top'>
+<h2>Intranet Chat&nbsp;&mdash; Описание протокола</h2>
+<p><em>Данная статья содержит описание протокола <i>Intranet Chat</i> и&nbsp;призвана облегчить труд разработчиков програмного обеспечения для этого приложения.
+Вся информация относительно протокола получена из&nbsp;открытых источников, а&nbsp;также с&nbsp;помощью анализа сетевого трафика
+&mdash; никакого дизассемблирования программы не&nbsp;проводилось.</em></p>
+<ol>
+<li><a href="#intro">Введение</a></li>
+<li><a href="#msg_format">Формат сообщения-&laquo;обёртки&raquo;</a></li>
+<li><a href="#msg_format_inner">Формат &laquo;внутреннего&raquo; сообщения</a></li>
+<li><a href="#msg_inner_list">&laquo;Внутренние&raquo; сообщения и&nbsp;их&nbsp;параметры</a></li>
+<li><a href="#ichat_lc">Жизненный цикл клиента Intranet Chat</a></li>
+<li><a href="#fin">Заключение</a></li>
+</ol>
+<a id='intro' name='intro'/>
+<h3>Введение</h3>
+<p>Во время разработки продуктов для Intranet Chat (он же "ichat") автор статьи столкнулся с&nbsp;проблемой&nbsp;&mdash; отсутствие поддержки. Я&nbsp;думаю
+многим известно, что автор популярного в&nbsp;домашних сетях чата&nbsp;&mdash; Ворожун Александр&nbsp;&mdash; по&nbsp;всей видимости давно потерял
+интерес к&nbsp;своему детищу. По&nbsp;крайней мере именно такое впечатление складывается у&nbsp;пользователей при попытках получить
+какую-либо помощь или&nbsp;же ответ на&nbsp;вопрос по&nbsp;работе программы. Естественно, это значительным образом затрудняет
+разработку и&nbsp;не&nbsp;способствует развитию и&nbsp;улучшению приложения. Столкнувшись с&nbsp;этой проблемой, стороннему разработчику
+не&nbsp;остаётся иного выбора, кроме как обратиться к&nbsp;&laquo;открытым источникам&raquo;.</p>
+<p>На данный момент в&nbsp;интернете доступны несколько описаний протокола, но&nbsp;в&nbsp;виду явно вредительской направленности
+сайтов, содержащих данные публикации, автор не&nbsp;считает возможным на&nbsp;них ссылаться. Более того, эти описания не&nbsp;являются
+исчерпывающими, поэтому даже если вы&nbsp;знакомы с&nbsp;данными публикациями, в&nbsp;этой статье вы&nbsp;всё равно можете почерпнуть
+нечто новое. Не&nbsp;исключено также, что в&nbsp;данном описании могут быть допущены неточности. Если вы&nbsp;обнаружили неточность -
+пожалуйста, сообщите автору. По&nbsp;мере возможностей статья дополняется ссылками на&nbsp;разработанные классы из&nbsp;API и
+комментариями по&nbsp;их&nbsp;использованию.</p>
+<p>Последнее, на&nbsp;что хотелось&nbsp;бы обратить внимание&nbsp;&mdash; в&nbsp;статье рассматривается только серверная реализация протокола
+в&nbsp;виду того, что автор не&nbsp;является поклонником широковещательных реализаций чатов и&nbsp;не&nbsp;заинтересован в&nbsp;развитии
+данной ветви продукта.</p>
+<a id='msg_format' name='msg_format' />
+<h3>Формат сообщения-&laquo;обёртки&raquo;</h3>
+<p>В Intranet Chat формат сообщений, отсылаемых от&nbsp;клиента серверу отличается от&nbsp;формата сообщений, отправляемых от
+сервера клиенту. Сообщения, которыми обменивается клиент и&nbsp;сервер&nbsp;&mdash; это своего рода &laquo;обёртка&raquo;, транспорт для
+зашифрованных сообщений. Формат &laquo;вложенного&raquo; сообщения (после расшифровки) также отличается от&nbsp;формата &laquo;обёртки&raquo;.</p>
+<p>Формат сообщения, передающегося от&nbsp;клиента к&nbsp;серверу:<br />
+[Длина сообщения] [0x00]&nbsp;[Отправитель] [0x00]&nbsp;[Команда] [0x00]&nbsp;[Получатель | "*"] [0x00]&nbsp;[Сообщение]<br />
+<br />
+Длина сообщения&nbsp;&mdash; количество байт, начиная с&nbsp;первого байта команды до&nbsp;завершения пакета.<br />
+0x00&nbsp;&mdash; разделитель параметров (символ с&nbsp;кодом 0).<br />
+Отправитель&nbsp;&mdash; строка, определяющая отправителя сообщения. Строка должна иметь вид IP-ADDRESS[/NETBIOS-NAME][/LOGIN].<blockquote>IP-ADDRESS&nbsp;&mdash; текстовое представление IP-адреса отправителя.<br />
+NETBIOS-NAME&nbsp;&mdash; нетбиос-имя компьютера-отправителя.<br />
+LOGIN&nbsp;&mdash; имя пользователя, под аккаунтом которого работает отправитель.<br />
+Поля NETBIOS-NAME и&nbsp;LOGIN могут не&nbsp;заполняться.</blockquote><i>(В&nbsp;дальнейшем мы&nbsp;будем называть строки такого вида IDENT).
+В&nbsp;<a href='http://jedi.web-visage.com/ichatapi/'>IChatAPI</a> для представления IDENT&rsquo;а&nbsp;используется класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/IChatSender.html'>IChatSender</a></i>.<br />
+<br />
+Команда&nbsp;&mdash; команда серверу, в&nbsp;данном случае (для обёртки) всегда FORWARD.
+Получатель&nbsp;&mdash; IDENT получателя сообщения или&nbsp;же "*" (звёздочка) в&nbsp;случае, если сообщение адресовано всем.<br />
+Сообщение&nbsp;&mdash; зашифрованное сообщение или пакет сообщений.
+</p>
+<p>Формат сообщения, отправляемого сервером клиенту:<br />
+<br />
+[Длина сообщения] [0x00]&nbsp;[Команда] [0x00]&nbsp;[Сообщение]<br />
+<br />
+Значение параметров точно такое&nbsp;же как и&nbsp;для сообщения, отправляемого от&nbsp;клиента серверу (см.&nbsp;выше). Значение поля
+команда так&nbsp;же равно FORWARD (для обёртки).</p>
+<p>
+В&nbsp;<a href='http://jedi.web-visage.com/ichatapi/'>IChatAPI</a> клиентское и&nbsp;серверное сообщение-обёртка представляются
+различными классами. Сообщение, передаваемое клиентом серверу представляется классом <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/IChatForwardMessage.html'>IChatForwardMessage</a>,
+в&nbsp;то&nbsp;время как сообщение от&nbsp;сервера клиенту&nbsp;&mdash; классом <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/IChatServerForwardMessage.html'>IChatServerForwardMessage</a>. Оба класса &laquo;знают&raquo;
+своё назначение у&nbsp;&laquo;умеют&raquo; переводить своё содержимое в&nbsp;байтовый массив. Шифруется&nbsp;же сообщение как правило с&nbsp;помощью фабрики сообщений (см.&nbsp;ниже).
+</p>
+<a id='msg_format_inner' name='msg_format_inner' />
+<h3>Формат &laquo;внутреннего&raquo; сообщения</h3>
+<p>Сообщения-обёртки выполняют лишь транспортную функцию, сервер (в&nbsp;базовом исполнении) использует лишь поля
+отправителя и&nbsp;получателя. Это позволяет создавать &laquo;облегченные&raquo; сервера, которым нет необходимости знать &laquo;внутренний&raquo; формат
+сообщения, а&nbsp;также уметь что-либо расшифровывать. Однако достигаемый таким путём выигрыш в&nbsp;производительности даётся
+ценой значительных проблем с&nbsp;безопасностью. Так, не&nbsp;производя никаких действий над сообщениями, сервер не&nbsp;в&nbsp;состоянии
+определить различного рода &laquo;манипуляции&raquo; с&nbsp;сообщениями. Для обеспечения должной безопасности сервер должен брать на
+себя часть работы по&nbsp;анализу возможных угроз, как это сделано, например, в&nbsp;сервере <a href='http://jedi.web-visage.com/scepsis/'>Scepsis</a>.
+</p>
+<p>Основную&nbsp;же информацию несут &laquo;внутренние&raquo; сообщения. Общий формат такого сообщения представлен ниже:<br />
+<br />
+[0x13]&nbsp;"ichat"&nbsp;[0x13]&nbsp;[0x13]&nbsp;[Счетчик ASCII] [0x13][0x13]&nbsp;[Отправитель] [0x13][0x13]&nbsp;[Команда] [0x13][0x13]&nbsp;[параметры команды] [0x13]<br />
+<br />
+0x13&nbsp;&mdash; это разделитель для &laquo;внутренней команды&raquo;. Два разделителя подряд отделяют поля команды друг от&nbsp;друга, в&nbsp;то&nbsp;время как один разделитель означает конец команды.<br />
+Команда&nbsp;&mdash; имя команды (см.&nbsp;ниже).<br />
+Параметры команды&nbsp;&mdash; специфические параметры для каждой команды (см.&nbsp;ниже).
+</p>
+<p>В <a href='http://jedi.web-visage.com/ichatapi/'>IChatAPI</a> для представления базового формата &laquo;внутреннего&raquo; сообщения
+используется класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/IChatMessage.html'>IChatMessage</a>.
+Класс является абстрактным, что не&nbsp;позволяет создавать его экземпляры непосредственно, но&nbsp;в&nbsp;то&nbsp;же время этот класс может быть
+чрезвычайно удобен для проведения базовых операций над сообщениями в&nbsp;тех случаях, когда конкретный тип сообщения не&nbsp;важен.</p>
+<p>Для каждой конкретной команды существует свой собственный класс, например <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatBoardMessage.html'>IChatBoardMessage</a>
+существует для команды BOARD. У&nbsp;каждой команды существует два способа создания&nbsp;&mdash; конструктор и&nbsp;фабричный метод. Различие
+состоит в&nbsp;том, что конструктор принимает непосредственно список параметров, необходимых для создания сообщения, в&nbsp;то&nbsp;время как
+фабричный метод (newInstance(&hellip;)) принимает в&nbsp;качестве параметра экземпляр типа <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/IChatParameterAccessor.html'>IChatParameterAccessor</a>,
+который позволяет реализовать произвольный алгоритм чтения параметров (из&nbsp;произвольных источников&nbsp;&mdash; будь то&nbsp;массив параметров, список и&nbsp;т.д.).
+</p>
+<p>Каждому классу также соответствует собственный визитор-интерфейс, позволяющий применять алгоритм, зависящий от&nbsp;конкретного типа
+команды к&nbsp;набору базовых сообщений <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/IChatMessage.html'>IChatMessage</a> с&nbsp;помощью
+метода <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/IChatMessage.html#acceptVisitor(com.web_visage.ichat.IChatMessageVisitor)'>acceptVisitor(com.web_visage.ichat.IChatMessageVisitor)</a>.
+</p>
+<p>Все сообщения являются &laquo;immutable&raquo;, то&nbsp;есть не&nbsp;позволяют производить непосредственное изменение своих полей. Для того чтобы
+&laquo;изменить&raquo; какое-либо поле, необходимо создать новый экземпляр сообщения или использовать updateXXX(..) методы (которые делают
+абсолютно то&nbsp;же самое). Такое решение позволяет избежать множество проблем, связанных с&nbsp;многозадачностью, хотя и&nbsp;создаёт
+некоторый перерасход памяти и&nbsp;может создавать (при неправильном использовании) дополнительную нагрузку на&nbsp;сборщик мусора.
+</p>
+<a id='msg_inner_list' name='msg_inner_list' />
+<h3>&laquo;Внутренние&raquo; сообщения и&nbsp;их&nbsp;параметры</h3>
+<p>Список команд, их&nbsp;параметров и&nbsp;соответствующих им&nbsp;классов приведен ниже (формат {Команда [[0x13][0x13]&nbsp;параметры]}) :<br />
+<ul>
+<li>ALERT [0x13][0x13]&nbsp;[текст сообщения]&nbsp;&mdash; алерт-сообщение (клиент может быть настроен на&nbsp;различные действие при получении алертов от&nbsp;пользователей).
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatAlertMessage.html'>IChatAlertMessage</a>.</li><br />
+<li>BOARD [0x13][0x13]&nbsp;[номер блока, начиная с&nbsp;нуля] [0x13][0x13]&nbsp;[текс блока]&nbsp;&mdash; сообщение для доски объявлений. Сообщения разбиваются на&nbsp;блоки по&nbsp;300&nbsp;(?) символов каждый.
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatBoardMessage.html'>IChatBoardMessage</a>.</li><br />
+<li>CONNECT [0x13][0x13]&nbsp;[Имя линии] [0x13][0x13]&nbsp;[логин пользователя] [0x13][0x13]&nbsp;[никнейм] [0x13][0x13]&nbsp;[не используется] [0x13][0x13]&nbsp;[0x13][0x13]&nbsp;[приветственное сообщение] [0x13][0x13]&nbsp;[получатель] [0x13][0x13]&nbsp;[версия] [0x13][0x13]&nbsp;[статус]
+&mdash; сообщение о&nbsp;подключении (как к&nbsp;общему чату, так и&nbsp;к&nbsp;линии). Поле получателя играет особую роль. При подключении клиент отправляет сообщение о&nbsp;подключении с&nbsp;полем
+получателя равным "*". Получив такое сообщение каждый клиент в&nbsp;свою очередь отправляет ответное сообщение о&nbsp;подключении с&nbsp;полем получателя, равным IDENT&rsquo;у&nbsp;нашего клиента.
+Таким образом, необходимо анализировать это поле для того чтобы вовремя отправить сообщение о&nbsp;собственном подключении, иначе мы&nbsp;не&nbsp;попадём в&nbsp;список контактов
+новоподключившегося клиента.
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatConnectMessage.html'>IChatConnectMessage</a>.</li><br />
+<li>CREATE_LINE [0x13][0x13]&nbsp;[имя линии] [пароль для входа в&nbsp;линию] [отправитель]&nbsp;&mdash; создание линии.
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatCreateLineMessage.html'>IChatCreateLineMessage</a>.</li><br />
+<li>CREATE [0x13][0x13]&nbsp;[идентификатор приватной линии] [0x13][0x13]&nbsp;[не используется?] [0x13][0x13]&nbsp;[получатель]&nbsp;&mdash; создание личного чата.
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatCreateMessage.html'>IChatCreateMessage</a>.</li><br />
+<li>DISCONNECT [0x13][0x13]&nbsp;[имя линии]&nbsp;&mdash; выход из&nbsp;линии.
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatDisconnectMessage.html'>IChatDisconnectMessage</a>.</li><br />
+<li>ME [0x13][0x13]&nbsp;[сообщение] [0x13][0x13]&nbsp;[имя линии] [0x13][0x13]&nbsp;[получатель]&nbsp;&mdash; аналог ACTION в&nbsp;IRC (команда /me сообщение).
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatMeMessage.html'>IChatMeMessage</a>.</li><br />
+<li>RECEIVED [0x13][0x13]&nbsp;[имя линии] [0x13][0x13]&nbsp;[текст подтверждения]&nbsp;&mdash; подтверждение получения сообщения. Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatReceivedMessage.html'>IChatReceivedMessage</a>.</li><br />
+<li>REFRESH_BOARD&nbsp;&mdash; запрос на&nbsp;обновление доски объявлений. Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatRefreshBoardMessage.html'>IChatRefreshBoardMessage</a>.</li><br />
+<li>REFRESH [0x13][0x13]&nbsp;[имя линии] [0x13][0x13]&nbsp;[логин пользователя] [0x13][0x13]&nbsp;[никнейм] [0x13][0x13]&nbsp;[не используется] [0x13][0x13]&nbsp;[приветствие] [0x13][0x13]&nbsp;[получатель] [0x13][0x13]&nbsp;[версия] [0x13][0x13]&nbsp;[статус]&nbsp;&mdash; обновление списка контактов. Как и&nbsp;в&nbsp;случае с&nbsp;CONNECT,
+поле &laquo;получатель&raquo; несёт особую нагрузку. Клиент периодически отправляет запрос на&nbsp;обновление списка контактов, в&nbsp;этом случае поле получатель будет содержать "*" (звёздочку). В&nbsp;ответ на&nbsp;это сообщение каждый клиент, подключённый
+к&nbsp;данной линии должен отправить ответное REFRESH сообщение, но&nbsp;в&nbsp;поле &laquo;получатель&raquo; будет содержаться IDENT нашего клиента. Таким образом, опять&nbsp;же, нам
+необходимо анализировать это поле чтобы вовремя сигнализировать запрашивающему клиенту о&nbsp;своём присутствии на&nbsp;линии.
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatRefreshMessage.html'>IChatRefreshMessage</a>.</li><br />
+<li>RENAME [0x13][0x13]&nbsp;[новый никнейм]&nbsp;&mdash; сообщение о&nbsp;смене имени пользователя.
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatRenameMessage.html'>IChatRenameMessage</a>.</li><br />
+<li>STATUS [0x13][0x13]&nbsp;[новый статус] [0x13][0x13]&nbsp;[сообщение статуса]&nbsp;&mdash; сообщение о&nbsp;смене пользователем статуса. &laquo;Сообщение статуса&raquo;&nbsp;&mdash; сообщение, которое будет
+выдано пользователю в&nbsp;ответ на&nbsp;попытку отправить личное сообщение.
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatStatusMessage.html'>IChatStatusMessage</a>.</li><br />
+<li>STATUS_REQ&nbsp;&mdash; запрос статуса пользователя. Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatStatusReqMessage.html'>IChatStatusReqMessage</a>.</li><br />
+<li>TEXT [0x13][0x13]&nbsp;[имя линии] [0x13][0x13]&nbsp;[текст сообщения] [0x13][0x13]&nbsp;[имя получателя (не&nbsp;IDENT)]&nbsp;&mdash; текст сообщения. Вид сообщения (общее или личное
+регулируется с&nbsp;помощью имени линии, см.&nbsp;ниже). Обратите внимание на&nbsp;то,&nbsp;что имя получателя в&nbsp;данном случае&nbsp;&mdash; это <strong>НЕ</strong>&nbsp;IDENT-строка.
+Это обращение, которое будет указано в&nbsp;теле сообщения, выводимого пользователю (в&nbsp;случае личного сообщения). Имя пользователя для личного сообщения может быть любым.
+Для публичного сообщение поле обычно содержит "*" (звёздочку).
+Класс <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/messages/IChatTextMessage.html'>IChatTextMessage</a>.</li><br />
+</ul>
+</p>
+<p>Везде, где используется параметр &laquo;имя линии&raquo; используются следующие соглашения: для обозначения &laquo;общего чата&raquo; используется имя линии, равное &laquo;iTCniaM&raquo;; для обозначения
+&laquo;приватного сообщения&raquo; используется имя линии, равное &laquo;gsMTCI&raquo;.</p>
+<p>В <a href='http://jedi.web-visage.com/ichatapi/'>IChatAPI</a> сообщения редко создаются непосредственно. Рекомендуется использовать
+реализации <a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/IChatMessageFactory.html'>IChatMessageFactory</a>, например
+<a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/DefaultMessageFactory.html'>DefaultMessageFactory</a>. Тогда в&nbsp;случае
+необходимости вы&nbsp;сможете полностью изменить алгоритм создания / шифрования сообщений, просто используя другую фабрику сообщений (именно
+так была решена задача поддержки видоизменённой &laquo;anti hack&raquo; версии от&nbsp;John Do). Фабрики сообщений ответственны за&nbsp;создание сообщений по
+параметрам, восстановлению сообщений из&nbsp;байт-формы, а&nbsp;также преобразование сообщений в&nbsp;байт-форму. Одним из&nbsp;следствий такой организации
+может быть возможность реализации клиента, для которого будет использоваться иной формат передачи данных (более экономичный, к&nbsp;примеру).</p>
+<p>Статус сообщения представляется в&nbsp;виде одного символа и&nbsp;означает:<br />
+&rsquo;0&rsquo;&nbsp;&mdash; обычный режим<br />
+&rsquo;1&rsquo;&nbsp;&mdash; не&nbsp;беспокоить на&nbsp;массовые сообщения<br />
+&rsquo;2&rsquo;&nbsp;&mdash; не&nbsp;беспокоить<br />
+&rsquo;3&rsquo;&nbsp;&mdash; away<br />
+В&nbsp;<a href='http://jedi.web-visage.com/ichatapi/'>API</a> для представления статуса используется безопасное с&nbsp;точки зрения типов перечисление
+<a href='http://jedi.web-visage.com/ichatapi/javadoc/com/web_visage/ichat/EnumStatus.html'>EnumStatus</a>.
+</p>
+<a id='ichat_lc' name='ichat_lc' />
+<h3>Жизненный цикл клиента Intranet Chat</h3>
+<p>
+Первое, что делает клиент ичата при подключении&nbsp;&mdash; как это ни&nbsp;парадоксально&nbsp;&mdash; отправляет сообщение об&nbsp;отключении себя от&nbsp;основной линии (для
+стандартного клиента это аналог выхода со&nbsp;всех линий). Делается это для того чтобы &laquo;убрать&raquo; устаревшие сведения о
+клиенте, которые возможно остались после &laquo;грязного&raquo; выхода (обрыва связи, повисания клиента и&nbsp;т.п.). Вслед за&nbsp;сообщением
+об&nbsp;отключении следует сообщение о&nbsp;подключении к&nbsp;основной линии чата, поле &laquo;получатель&raquo; установлено в&nbsp;"*" (звёздочку).
+Каждый клиент, получивший это сообщение, сигнализирует о&nbsp;своём присутствии на&nbsp;линии, отправляя ответное сообщение о
+подключении с&nbsp;полем &laquo;получатель&raquo;, установленным в&nbsp;IDENT первого клиента. Получив это сообщение, клиент обновляет
+список контактов и&nbsp;сигнализирует о&nbsp;подключении (список подключений при старте). Также все клиенты, создававшие линии, отправляют
+сообщения о&nbsp;создании линии вновь подключившемуся клиенту.</p>
+<p>После этого можно условно считать фазу подключения завершённой (на&nbsp;самом деле чётких временных рамок этой фазы,
+насколько нам извезнтно, не&nbsp;установлено). В&nbsp;дальнейшем, клиент периодически отправляет запрос на&nbsp;обновление списка
+контактов, адресуя его всем пользователям и&nbsp;устанавливая поле &laquo;получатель&raquo; в&nbsp;"*". Каждый клиент, получивший такой
+запрос, сигнализирует о&nbsp;своём нахождении на&nbsp;всех линиях, отправляя для каждой линии ответный рефреш-пакет с&nbsp;именем
+линии и&nbsp;полем &laquo;получатель&raquo;, установленным в&nbsp;значение IDENT-строки первого клиента. Не&nbsp;получив ни&nbsp;одного рефреш-ответа
+в&nbsp;течении какого-то времени (около трёх минут), пользователь удаляется из&nbsp;списка контактов с&nbsp;выводом сообщения о
+выходе пользователя. В&nbsp;случае, если клиент получает рефреш ответ после того как пользователь был удалён из&nbsp;списка,
+пользователь добавляется в&nbsp;список контактов, сообщение о&nbsp;подключении не&nbsp;выводится.</p>
+<p>Сообщения от&nbsp;пользователя, не&nbsp;находящегося в&nbsp;списке контактов, стандартным клиентом игнорируются.</p>
+<p>Получив личное сообщение, пользователь отправляет ответ-подтверждение. Если в&nbsp;ответ на&nbsp;личное сообщение ответа не
+получено, это может означать, что клиент более недоступен и&nbsp;в&nbsp;течении трёх минут будет удалён из&nbsp;списка контактов
+(при отсутствии ответов на&nbsp;рефреш-запросы). Это может также означать наличие нестандартного клиента, который просто-напросто
+не&nbsp;генерирует ответных подтверждений.</p>
+<p>В ответ на&nbsp;запрос статуса клиент отправляет запрашивающему свой статус и&nbsp;строку авто-ответа.</p>
+<p>При создании линии клиент высылает всем пользователям имя линии и&nbsp;пароль. Каждый клиент должен сам ограничивать
+возможность присоединения пользователя к&nbsp;линии.</p>
+<p>Для обновления списка контактов не-общей линии клиент высылает REFRESH-запрос с&nbsp;полем &laquo;имя линии&raquo; равным имени линии
+(в&nbsp;отличие от&nbsp;обновления списка контактов для общего чата, где это поле равно "*") и&nbsp;полем &laquo;получатель&raquo;, также равным "*".
+</p>
+<p>При создании личного чата клиент отправляет команду CREATE с&nbsp;именем линии, равной строке из&nbsp;семи произвольных цифр.
+Вслед за&nbsp;этим он&nbsp;отправляет команду CONNECT для присоединения к&nbsp;вновь созданной &laquo;линии&raquo;. Отвечающая сторона также
+отправляет соответствующий CONNECT-пакет для подключения. Обновление приватного чата осуществляется так&nbsp;же как и
+обновление для любой другой (не&nbsp;общей) линии.</p>
+<p>При выходе из&nbsp;чата клиент отправляет сообщение о&nbsp;выходе из&nbsp;общей линии и&nbsp;закрывает соединение. При получении
+этого сообщения клиенты удаляют отправителя из&nbsp;списка контактов.</p>
+<a id='fin' name='fin' />
+<h3>Заключение</h3>
+<p>Автор надеется, что данная статья хотя&nbsp;бы немного облегчила понимание работы Intranet Chat и&nbsp;пролила немного
+света на&nbsp;использование <a href='/ichatapi/'>IChatAPI</a> для создания приложений под ичат.
+Большинство из&nbsp;описанного в&nbsp;жизненном цикле является обобщением собственных наблюдений, а&nbsp;также результатом анализа
+поведения собственных приложений, таких как iRCha, Scepsis и&nbsp;др.&nbsp;Некоторые из&nbsp;этих наблюдений, как нам кажется, не
+вполне очевидны и&nbsp;могут сберечь время разработчикам, которые только приступают к&nbsp;освоению Intranet Chat. Если у&nbsp;вас
+возникли какие либо пожелания, уточнения или комментарии&nbsp;&mdash; милости просим на&nbsp;наш <a href='http://forum.web-visage.com/homenets/'>форум</a>.</p>
+</td>
+</tr>
+</table>
+
+<div style='margin:30px'>
+<strong>&copy; 2006-2007&nbsp;&mdash; Авторство и&nbsp;copyright на&nbsp;все материалы&nbsp;&mdash; Константин Батурицкий</strong>
+<br /><a href='/'>На главную</a> : <a href='/articles/'>Статьи</a> : <a href='http://forum.web-visage.com/homenets.'>Форум</a> : <a href='http://homenets.blogspot.com/'>Блог</a> : <a href='http://sourceforge.net/sendmessage.php?touser=1356847'>Связаться с&nbsp;автором</a>
+</div>
+</html>

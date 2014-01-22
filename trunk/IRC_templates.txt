@@ -1,0 +1,15 @@
+/msg MemoServ SEND &UserNick &s              
+:menu:Дразнилки                              
+/me использует тухлую рыбу на &UserNick      
+/me использует очень тухлую рыбу на &UserNick
+/me потрепал &UserNick драчовым напильником  
+:menu:Операции канала                        
+/topic &ChanName &s                          
+/ctcp &ChanName &s                           
+:menu: CTCP                                  
+/CTCP &UserNick &s
+/CTCP &UserNick VERSION                            
+/CTCP &UserNick PING    
+/CTCP &UserNick USERINFO
+/CTCP &UserNick TIME    
+/CTCP &UserNick AVATAR  

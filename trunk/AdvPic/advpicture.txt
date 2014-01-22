@@ -1,0 +1,83 @@
+**********************************************************************
+  TAdvPicture component
+  Copyright © 2002 - 2003
+  TMS Software
+  E-mail: info@tmssoftware.com
+  Web : http://www.tmssoftware.com
+**********************************************************************
+
+Delphi 4.0/5.0/6.0/7.0 & C++Builder 4.0/5.0/6.0
+
+Files :
+-----
+  advpicd4.zip : component files for Delphi 4.0
+  advpicd5.zip : component files for Delphi 5.0
+  advpicd6.zip : component files for Delphi 6.0
+  advpicd7.zip : component files for Delphi 7.0
+  advpicc4.zip : component files for C++Builder 4.0
+  advpicc5.zip : component files for C++Builder 5.0
+  advpicc6.zip : component files for C++Builder 6.0
+  
+Release 1.3 :
+-------------
+
+  A graphic control that can display bitmaps, icons, metafiles, JPEG files, GIF files
+  and animated GIF files in center, topleft, topright, bottomleft, bottomright, stretched 
+  and tiled mode  
+
+
+Feature Revision history :
+------------------------
+
+ 1.0 : first version
+ 1.1 : Added StretchMode property to allow shrink only of pictures within the 
+       AdvPicture control size
+ 1.2 : Added Delphi 6 support
+       Improved design-time editing
+ 1.3 : Added Delphi 7 support
+
+
+Installation :
+--------------
+
+ In Delphi 4,5,6,7 or C++Builder 4,5,6
+
+ Unzip files advpicdX or advpiccX into a component directory
+
+ - Install components,
+
+ - Install into new package (or existing package)
+
+ - Browse for (new) package file
+
+ - Add advpicr.pas
+
+
+ In C++Builder 5 
+
+ - Open the package file : advpicc5.BPK
+ - Compile & install
+  
+
+Usage :
+-------
+ This component is freeware for non-commercial applications.
+ License for commercial use is equivalent to buying source code,
+ and is available for $30. Licensed users get source code updates
+ for all 1.x versions. Send cheque or cash for $30 to address above
+ and source code will be sent by email immediately upon receipt.
+ If you would like to register TAdvPicture online, you can do the
+ registration at http://www.shareit.com/programs/103312.htm.
+ Alternatively, you can go to http://www.shareit.com and enter
+ the program number there: 103312. Since the online registration
+ for a TMS basic component is valid for several TMS components,
+ do not forget to request TAdvPicture by email as well via
+ info@tmssoftware.com
+
+
+Help, hints, tips, bug reports :
+------------------------------
+ Send any remarks to : info@tmssoftware.com
+ Please clearly state which Delphi or C++Builder version you are using
+ and which version of the component you are using. In case of doubt,
+ download the latest version first at http://www.tmssoftware.com

@@ -1,0 +1,53 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2//EN">
+<HTML>
+<HEAD>
+   <TITLE></TITLE>
+   <META NAME="Author" CONTENT="Desti">
+   <META NAME="GENERATOR" CONTENT="Mozilla/3.0Gold (Win95; I) [Netscape]">
+</HEAD>
+<BODY BACKGROUND="fon.gif">
+
+<P><B><FONT COLOR="#FF0000"><FONT SIZE=+2>DCC Resume Protocol</FONT></FONT>
+<FONT COLOR="#0000FF">(Протокол докачки файла)</FONT></B></P>
+
+<P>Протокол докачки файла достаточно простой.</P>
+
+<P>Пользователь <B>User1</B> посылает файл. Пользователь <B>User2</B> получает
+файл.</P>
+
+<P>Для запуска сессии передачи пользователь <B>User1</B> посылает сообщение:</P>
+
+<P><B><FONT COLOR="#008000">PRIVMSG User2 :DCC SEND filename ipaddress
+port filesize</FONT></B></P>
+
+<P>Если пользователь <B>User2</B> дает подтверждение приема, пользователь
+<B>User1</B> подключается к адресу и номеру порта, посланному ему пользователем
+<B>User2</B> и начинает передавать файл.</P>
+
+<P>Если пользователь <B>User2</B> выбирает докачку файла (resume), происходит
+обмен следующими сообщениями:</P>
+
+<P>Пользователь <B>User2</B> посылает сообщение:</P>
+
+<P><B><FONT COLOR="#008000">PRIVMSG User1 :DCC </FONT><FONT COLOR="#FF0000">RESUME</FONT><FONT COLOR="#008000">
+filename port position</FONT></B></P>
+
+<P><B>filename</B> = имя файла <BR>
+<B>port</B> = номер порта <BR>
+<B>position</B> = текущий размер файла у пользователя <B>User2</B>.</P>
+
+<P>Пользователь <B>User1</B> отвечает сообщением:</P>
+
+<P><B><FONT COLOR="#008000">PRIVMSG User2 :DCC </FONT><FONT COLOR="#FF0000">ACCEPT</FONT><FONT COLOR="#008000">
+filename port position</FONT></B></P>
+
+<P>Пользователь <B>User2</B> подключается к <B>User1</B> по указаному ему
+адресу и порту и начинает передачу файла с заданной позиции.</P>
+
+<P><B><FONT COLOR="#FF0000">Note</FONT></B>: Последние версии mIRC игнорируют
+имя файла, т.к. номер порта и так однозначно идентифицирует соединение.
+Однако, для совместимости со старыми версиями mIRC, имя файла посылается
+в виде file.ext и в <B>RESUME</B>, и в <B>ACCEPT</B>.</P>
+
+</BODY>
+</HTML>
